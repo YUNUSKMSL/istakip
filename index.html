@@ -1,493 +1,516 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA - Estetik & Üyelik Portalı</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Düğün Davetiyesi</title>
+  <!-- Google Fonts: Elegant Typographies -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #f7ede2;
+      --card-bg: #fdfbf7;
+      --accent-color: #c5a059;
+      --text-dark: #4a3e3d;
+      --text-muted: #8c7b75;
+      --border-color: #e5d3c8;
+    }
 
-    <style>
-        /* ==================== RESET & TEMEL STİLLER ==================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #0f1115;
-            color: #f3f4f6;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    body {
+      background-color: #2b2625;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+    /* Mobil Cihaz Görünümü Konteyneri */
+    .mobile-container {
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      max-height: 880px;
+      background-color: var(--bg-color);
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      border-radius: 20px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
 
-        /* ==================== NAVBAR (NAVİGASYON) ==================== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-            backdrop-filter: blur(5px);
-        }
+    /* --- AKORDİYON KAPAK KAPILARI (AÇILIŞ ANİMASYONU) --- */
+    .door-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      display: flex;
+      pointer-events: auto;
+      transition: opacity 1s ease 1.2s, visibility 1s ease 1.2s;
+    }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
+    .door-container.open {
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+    }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-            align-items: center;
-        }
+    .door {
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, #ebdcd0 0%, #d8beaf 100%);
+      position: relative;
+      transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
 
-        nav a {
-            font-size: 0.9rem;
-            font-weight: 300;
-            opacity: 0.85;
-            transition: all 0.3s ease;
-        }
+    .door-left {
+      border-right: 1px solid rgba(197, 160, 89, 0.3);
+      justify-content: flex-end;
+    }
 
-        nav a:hover {
-            opacity: 1;
-            color: #d4af37;
-        }
+    .door-right {
+      border-left: 1px solid rgba(197, 160, 89, 0.3);
+      justify-content: flex-start;
+    }
 
-        .nav-btn {
-            background: rgba(212, 175, 55, 0.15);
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            padding: 8px 20px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-        }
+    /* Kapak Desen Süslemesi */
+    .door-pattern {
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(197, 160, 89, 0.4);
+      border-radius: 8px;
+      pointer-events: none;
+    }
 
-        .nav-btn:hover {
-            background: #d4af37;
-            color: #0f1115;
-        }
+    .door-container.open .door-left {
+      transform: translateX(-100%);
+    }
 
-        /* ==================== HERO BÖLÜMÜ ==================== */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            background: linear-gradient(rgba(15, 17, 21, 0.5), rgba(15, 17, 21, 0.85)), 
-                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-        }
+    .door-container.open .door-right {
+      transform: translateX(100%);
+    }
 
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
+    /* Kapak Ortasındaki Mühür/Buton */
+    .seal-button {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: #fdfbf7;
+      border: 2px solid var(--accent-color);
+      border-radius: 50%;
+      z-index: 101;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      transition: transform 0.3s, opacity 0.5s;
+    }
 
-        .hero p {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            font-weight: 300;
-            max-width: 600px;
-            margin-bottom: 40px;
-            color: #d1d5db;
-        }
+    .seal-button:hover {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 14px 38px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
+    .seal-button span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      color: var(--text-dark);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
 
-        .btn:hover {
-            background: #ffffff;
-            color: #0f1115;
-            transform: translateY(-3px);
-        }
+    /* --- İÇERİK BÖLÜMÜ --- */
+    .card-content {
+      padding: 40px 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
 
-        /* ==================== KULLANICI PROFİL ALANI (GİRİŞ SONRASI) ==================== */
-        .dashboard {
-            padding: 80px 8% 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-            display: none; /* Varsayılan gizli */
-        }
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 15px;
+      padding: 30px 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    }
 
-        .user-welcome-card {
-            background: #181b20;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 16px;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .section-card::before {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border: 1px dashed var(--border-color);
+      border-radius: 10px;
+      pointer-events: none;
+    }
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+    /* Başlık ve İsimler */
+    .names {
+      font-family: 'Great Vibes', cursive;
+      font-size: 42px;
+      color: var(--text-dark);
+      margin: 15px 0;
+    }
 
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #d4af37;
-            color: #0f1115;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
+    .ampersand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      color: var(--accent-color);
+      display: block;
+      margin: -10px 0;
+    }
 
-        /* ==================== İÇERİK KARTLARI ==================== */
-        .features {
-            padding: 60px 8%;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+    .invitation-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
+    .family-names {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-around;
+      font-size: 12px;
+      color: var(--text-dark);
+      border-top: 1px solid var(--border-color);
+      padding-top: 15px;
+    }
 
-        .card {
-            background: #181b20;
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
-        }
+    /* Tarih Bölümü */
+    .date-badge {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 60px;
+      font-weight: 600;
+      color: var(--accent-color);
+      line-height: 1;
+    }
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(212, 175, 55, 0.3);
-        }
+    .month-year {
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
 
-        .card-img {
-            height: 220px;
-            width: 100%;
-            object-fit: cover;
-        }
+    .time-info {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+      padding-top: 10px;
+    }
 
-        .card-content {
-            padding: 25px;
-        }
+    /* Geri Sayım */
+    .countdown-title {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
 
-        /* ==================== MODAL (GİRİŞ / KAYIT PENCERESİ) ==================== */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
+    .timer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
+    .time-box {
+      flex: 1;
+      background: var(--bg-color);
+      padding: 10px 5px;
+      border-radius: 8px;
+    }
 
-        .auth-card {
-            background: #181b20;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 90%;
-            max-width: 420px;
-            padding: 40px;
-            border-radius: 20px;
-            position: relative;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-        }
+    .time-box .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--text-dark);
+    }
 
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #9ca3af;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
+    .time-box .label {
+      font-size: 9px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
 
-        .tab-buttons {
-            display: flex;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    /* Akış / Program */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+    }
 
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: none;
-            border: none;
-            color: #9ca3af;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
 
-        .tab-btn.active {
-            color: #d4af37;
-            border-bottom: 2px solid #d4af37;
-        }
+    .timeline-item:last-child {
+      border-bottom: none;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .timeline-time {
+      font-weight: 500;
+      color: var(--accent-color);
+      font-size: 14px;
+    }
 
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            color: #d1d5db;
-        }
+    .timeline-event {
+      font-size: 14px;
+      color: var(--text-dark);
+    }
 
-        .form-group input {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0f1115;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #fff;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.3s;
-        }
+    /* Form & Butonlar */
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
 
-        .form-group input:focus {
-            border-color: #d4af37;
-        }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
 
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: #d4af37;
-            border: none;
-            border-radius: 8px;
-            color: #0f1115;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: var(--bg-color);
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--text-dark);
+      outline: none;
+    }
 
-        .submit-btn:hover {
-            background: #e5c158;
-        }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-        /* ==================== FOOTER ==================== */
-        footer {
-            padding: 40px 8%;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-            color: #6b7280;
-            font-size: 0.85rem;
-        }
-    </style>
+    .btn:hover {
+      background: #b08d4a;
+    }
+
+    .map-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navigasyon -->
-    <header>
-        <div class="logo">AURA.</div>
-        <nav>
-            <ul>
-                <li><a href="#home">Ana Sayfa</a></li>
-                <li><a href="#explore">Keşfet</a></li>
-                <li id="authLink"><button class="nav-btn" onclick="openModal()">Giriş Yap / Kayıt Ol</button></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Giriş Yapan Kullanıcı Paneli (Giriş yapıldığında aktif olur) -->
-    <div class="dashboard" id="userDashboard">
-        <div class="user-welcome-card">
-            <div class="user-info">
-                <div class="avatar" id="userAvatar">A</div>
-                <div>
-                    <h3 id="userNameDisplay">Hoş geldin!</h3>
-                    <p style="color: #9ca3af; font-size: 0.85rem;">Hesabınız aktif ve senkronize edildi.</p>
-                </div>
-            </div>
-            <button class="nav-btn" onclick="logout()" style="border-color: #ef4444; color: #ef4444;">Çıkış Yap</button>
-        </div>
+  <div class="mobile-container">
+    
+    <!-- AÇILIŞ KAPAKLARI -->
+    <div class="door-container" id="doorContainer">
+      <div class="door door-left">
+        <div class="door-pattern"></div>
+      </div>
+      <div class="seal-button" id="openBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="1.5">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+        <span>AÇINIZ</span>
+      </div>
+      <div class="door door-right">
+        <div class="door-pattern"></div>
+      </div>
     </div>
 
-    <!-- Hero Alanı -->
-    <section class="hero" id="home">
-        <h1>Sessizliğin Estetiği</h1>
-        <p>Görsel yolculuğunuza yön veren minimalist ve modern topluluk portalı.</p>
-        <button class="btn" onclick="openModal()">Aramıza Katıl</button>
-    </section>
+    <!-- DAVETİYE İÇERİĞİ -->
+    <div class="card-content">
+      
+      <!-- İsimler Card -->
+      <div class="section-card">
+        <div class="names">Melisa</div>
+        <span class="ampersand">ve</span>
+        <div class="names">Kerem</div>
+        
+        <p class="invitation-text">
+          Bu özel günümüzde, hayatımızı birleştirirken siz değerli dostlarımızı yanımızda görmekten mutluluk duyarız.
+        </p>
 
-    <!-- İçerik Kartları -->
-    <section class="features" id="explore">
-        <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80" class="card-img">
-                <div class="card-content">
-                    <h3>Derin Huzur</h3>
-                    <p>Özel içeriklere ve topluluk alanına erişmek için hesabınıza giriş yapın.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80" class="card-img">
-                <div class="card-content">
-                    <h3>Sisli Tepeler</h3>
-                    <p>Doğanın ritmini keşfetmek isteyen fotoğrafçıların topluluk alanı.</p>
-                </div>
-            </div>
+        <div class="family-names">
+          <div><strong>Yıldız</strong> Ailesi</div>
+          <div><strong>Demir</strong> Ailesi</div>
         </div>
-    </section>
+      </div>
 
-    <!-- MODAL: GİRİŞ YAP & KAYIT OL -->
-    <div class="modal-overlay" id="authModal">
-        <div class="auth-card">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="switchTab('login')">Giriş Yap</button>
-                <button class="tab-btn" onclick="switchTab('register')">Kayıt Ol</button>
-            </div>
-
-            <!-- Giriş Formu -->
-            <form id="loginForm" onsubmit="handleAuth(event, 'login')">
-                <div class="form-group">
-                    <label>E-Posta Adresi</label>
-                    <input type="email" placeholder="ornek@mail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Şifre</label>
-                    <input type="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="submit-btn">Giriş Yap</button>
-            </form>
-
-            <!-- Kayıt Formu -->
-            <form id="registerForm" onsubmit="handleAuth(event, 'register')" style="display: none;">
-                <div class="form-group">
-                    <label>Ad Soyad</label>
-                    <input type="text" id="regName" placeholder="Ahmet Yılmaz" required>
-                </div>
-                <div class="form-group">
-                    <label>E-Posta Adresi</label>
-                    <input type="email" placeholder="ornek@mail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Şifre</label>
-                    <input type="password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="submit-btn">Hesap Oluştur</button>
-            </form>
+      <!-- Tarih Card -->
+      <div class="section-card">
+        <div class="month-year">AĞUSTOS 2026</div>
+        <div class="date-badge">08</div>
+        <div class="time-info">
+          <span>CUMARTESİ</span>
+          <span>•</span>
+          <span>SAAT 19:00</span>
         </div>
+      </div>
+
+      <!-- Geri Sayım Card -->
+      <div class="section-card">
+        <div class="countdown-title">Buluşmaya Kalan Süre</div>
+        <div class="timer-grid">
+          <div class="time-box">
+            <div class="num" id="days">00</div>
+            <div class="label">Gün</div>
+          </div>
+          <div class="time-box">
+            <div class="num" id="hours">00</div>
+            <div class="label">Saat</div>
+          </div>
+          <div class="time-box">
+            <div class="num" id="minutes">00</div>
+            <div class="label">Dakika</div>
+          </div>
+          <div class="time-box">
+            <div class="num" id="seconds">00</div>
+            <div class="label">Saniye</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Program Akışı -->
+      <div class="section-card">
+        <div class="countdown-title">Günün Çizgisi</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <span class="timeline-time">19:00</span>
+            <span class="timeline-event">Nikah Merasimi</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-time">20:00</span>
+            <span class="timeline-event">Kokteyl & İkram</span>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-time">21:30</span>
+            <span class="timeline-event">Kutlama & Eğlence</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Konum Card -->
+      <div class="section-card">
+        <div class="countdown-title">Konum</div>
+        <h4 style="color: var(--text-dark); margin-top: 5px;">Four Seasons Hotel</h4>
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Beşiktaş, İstanbul</p>
+        <a href="https://maps.google.com" target="_blank" class="map-btn">YOL TARİFİ AL</a>
+      </div>
+
+      <!-- RSVP / LCV Katılım Formu -->
+      <div class="section-card">
+        <div class="countdown-title">Katılım Durumu (RSVP)</div>
+        <form id="rsvpForm" onsubmit="event.preventDefault(); alert('Katılım durumunuz iletildi!');">
+          <div class="form-group">
+            <label>ADINIZ SOYADINIZ</label>
+            <input type="text" placeholder="Ad Soyad" required>
+          </div>
+          <div class="form-group">
+            <label>KATILIM DURUMU</label>
+            <select required>
+              <option value="evet">Katılıyorum</option>
+              <option value="hayir">Katılamıyorum</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>KİŞİ SAYISI</label>
+            <input type="number" min="1" max="5" value="1">
+          </div>
+          <button type="submit" class="btn">GÖNDER</button>
+        </form>
+      </div>
+
     </div>
+  </div>
 
-    <footer>
-        <p>&copy; 2026 AURA. Tüm hakları saklıdır.</p>
-    </footer>
+  <script>
+    // Kapak Açılışı
+    const doorContainer = document.getElementById('doorContainer');
+    const openBtn = document.getElementById('openBtn');
 
-    <!-- JAVASCRIPT: Etkileşimler -->
-    <script>
-        function openModal() {
-            document.getElementById('authModal').classList.add('active');
-        }
+    openBtn.addEventListener('click', () => {
+      doorContainer.classList.add('open');
+    });
 
-        function closeModal() {
-            document.getElementById('authModal').classList.remove('active');
-        }
+    // Geri Sayım Mantığı (Hedef: 8 Ağustos 2026)
+    const targetDate = new Date('August 8, 2026 19:00:00').getTime();
 
-        function switchTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const tabs = document.querySelectorAll('.tab-btn');
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
 
-            if (tab === 'login') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-                tabs[0].classList.add('active');
-                tabs[1].classList.remove('active');
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-                tabs[0].classList.remove('active');
-                tabs[1].classList.add('active');
-            }
-        }
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-        function handleAuth(event, type) {
-            event.preventDefault();
-            closeModal();
-            
-            let name = "Kullanıcı";
-            if(type === 'register') {
-                name = document.getElementById('regName').value;
-            } else {
-                name = "Yunus"; // Varsayılan giriş simülasyonu
-            }
+        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+      }
+    }
 
-            // Arayüzü Kullanıcı Giriş Yapmış Gibi Güncelle
-            document.getElementById('userDashboard').style.display = 'block';
-            document.getElementById('userNameDisplay').innerText = "Hoş geldin, " + name;
-            document.getElementById('userAvatar').innerText = name.charAt(0).toUpperCase();
-            
-            // Navigasyondaki butonu değiştir
-            document.getElementById('authLink').innerHTML = `<span style="color:#d4af37; font-size:0.9rem;">● ${name}</span>`;
-            
-            // Sayfayı panele kaydır
-            document.getElementById('userDashboard').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function logout() {
-            document.getElementById('userDashboard').style.display = 'none';
-            document.getElementById('authLink').innerHTML = `<button class="nav-btn" onclick="openModal()">Giriş Yap / Kayıt Ol</button>`;
-        }
-    </script>
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
 </body>
 </html>
