@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Düğün Davetiyesi</title>
-  <!-- Google Fonts: Elegant Typographies -->
+  <title>Melisa & Kerem Davetiye</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-color: #f7ede2;
-      --card-bg: #fdfbf7;
-      --accent-color: #c5a059;
-      --text-dark: #4a3e3d;
-      --text-muted: #8c7b75;
-      --border-color: #e5d3c8;
+      --bg-cream: #f6efeb;
+      --card-bg: #faf6f0;
+      --gold-accent: #cfa86e;
+      --gold-dark: #b58d52;
+      --text-main: #5c4e4b;
+      --text-sub: #8c7a76;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      background-color: #2b2625;
+      background-color: #1a1615;
       font-family: 'Montserrat', sans-serif;
       display: flex;
       justify-content: center;
@@ -35,88 +30,68 @@
       overflow-x: hidden;
     }
 
-    /* Mobil Cihaz Görünümü Konteyneri */
-    .mobile-container {
+    .mobile-wrapper {
       width: 100%;
-      max-width: 420px;
+      max-width: 414px;
       height: 100vh;
-      max-height: 880px;
-      background-color: var(--bg-color);
+      max-height: 896px;
+      background-color: var(--bg-cream);
       position: relative;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+      border-radius: 36px;
       overflow-y: auto;
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
 
-    /* --- AKORDİYON KAPAK KAPILARI (AÇILIŞ ANİMASYONU) --- */
-    .door-container {
+    /* --- AKORDİYON KAPAK KAPI MEKANİZMASI --- */
+    .door-wrapper {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 100;
       display: flex;
-      pointer-events: auto;
-      transition: opacity 1s ease 1.2s, visibility 1s ease 1.2s;
+      transition: opacity 1.2s ease 1.2s, visibility 1.2s ease 1.2s;
     }
 
-    .door-container.open {
+    .door-wrapper.opened {
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
     }
 
-    .door {
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(135deg, #ebdcd0 0%, #d8beaf 100%);
+    .door-leaf {
+      width: 50%; height: 100%;
+      background: #e8d7cd url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
       position: relative;
-      transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
+      transition: transform 1.4s cubic-bezier(0.77, 0, 0.175, 1);
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
-    .door-left {
-      border-right: 1px solid rgba(197, 160, 89, 0.3);
-      justify-content: flex-end;
-    }
-
-    .door-right {
-      border-left: 1px solid rgba(197, 160, 89, 0.3);
-      justify-content: flex-start;
-    }
-
-    /* Kapak Desen Süslemesi */
-    .door-pattern {
+    /* Kabartma Dantel Efekti */
+    .door-leaf::after {
+      content: '';
       position: absolute;
-      inset: 20px;
-      border: 1px solid rgba(197, 160, 89, 0.4);
-      border-radius: 8px;
-      pointer-events: none;
+      inset: 0;
+      background-image: radial-gradient(circle at center, rgba(255,255,255,0.6) 0%, transparent 70%);
+      opacity: 0.5;
     }
 
-    .door-container.open .door-left {
-      transform: translateX(-100%);
-    }
+    .door-left { border-right: 1px solid rgba(207, 168, 110, 0.4); }
+    .door-right { border-left: 1px solid rgba(207, 168, 110, 0.4); }
 
-    .door-container.open .door-right {
-      transform: translateX(100%);
-    }
+    .door-wrapper.opened .door-left { transform: translateX(-100%); }
+    .door-wrapper.opened .door-right { transform: translateX(100%); }
 
-    /* Kapak Ortasındaki Mühür/Buton */
-    .seal-button {
+    /* Mühür Butonu */
+    .seal-btn {
       position: absolute;
-      left: 50%;
-      top: 50%;
+      left: 50%; top: 50%;
       transform: translate(-50%, -50%);
-      width: 80px;
-      height: 80px;
-      background: #fdfbf7;
-      border: 2px solid var(--accent-color);
+      width: 90px; height: 90px;
+      background: linear-gradient(145deg, #ffffff, #f2e6dc);
+      border: 2px solid var(--gold-accent);
       border-radius: 50%;
       z-index: 101;
       display: flex;
@@ -124,356 +99,225 @@
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      transition: transform 0.3s, opacity 0.5s;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: all 0.4s ease;
     }
 
-    .seal-button:hover {
-      transform: translate(-50%, -50%) scale(1.05);
+    .seal-btn:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+      box-shadow: 0 12px 30px rgba(207, 168, 110, 0.4);
     }
 
-    .seal-button span {
+    .seal-btn img { width: 32px; height: 32px; opacity: 0.8; }
+    .seal-btn span {
       font-family: 'Cormorant Garamond', serif;
       font-size: 11px;
-      color: var(--text-dark);
-      letter-spacing: 1px;
-      margin-top: 2px;
-    }
-
-    /* --- İÇERİK BÖLÜMÜ --- */
-    .card-content {
-      padding: 40px 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    .section-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 15px;
-      padding: 30px 20px;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-    }
-
-    .section-card::before {
-      content: '';
-      position: absolute;
-      inset: 6px;
-      border: 1px dashed var(--border-color);
-      border-radius: 10px;
-      pointer-events: none;
-    }
-
-    /* Başlık ve İsimler */
-    .names {
-      font-family: 'Great Vibes', cursive;
-      font-size: 42px;
-      color: var(--text-dark);
-      margin: 15px 0;
-    }
-
-    .ampersand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      color: var(--accent-color);
-      display: block;
-      margin: -10px 0;
-    }
-
-    .invitation-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      color: var(--text-muted);
-      font-style: italic;
-      margin-top: 15px;
-      line-height: 1.5;
-    }
-
-    .family-names {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-around;
-      font-size: 12px;
-      color: var(--text-dark);
-      border-top: 1px solid var(--border-color);
-      padding-top: 15px;
-    }
-
-    /* Tarih Bölümü */
-    .date-badge {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 60px;
-      font-weight: 600;
-      color: var(--accent-color);
-      line-height: 1;
-    }
-
-    .month-year {
-      font-size: 14px;
-      letter-spacing: 3px;
-      color: var(--text-dark);
-      text-transform: uppercase;
-      margin-bottom: 15px;
-    }
-
-    .time-info {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      font-size: 12px;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border-color);
-      padding-top: 10px;
-    }
-
-    /* Geri Sayım */
-    .countdown-title {
-      font-size: 12px;
+      color: var(--text-main);
       letter-spacing: 2px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 15px;
-    }
-
-    .timer-grid {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .time-box {
-      flex: 1;
-      background: var(--bg-color);
-      padding: 10px 5px;
-      border-radius: 8px;
-    }
-
-    .time-box .num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: bold;
-      color: var(--text-dark);
-    }
-
-    .time-box .label {
-      font-size: 9px;
-      color: var(--text-muted);
-      text-transform: uppercase;
       margin-top: 4px;
     }
 
-    /* Akış / Program */
-    .timeline {
+    /* --- İÇERİK BÖLÜMÜ --- */
+    .container {
+      padding: 30px 20px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 35px;
+    }
+
+    .frame-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 35px 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: inset 0 0 15px rgba(207, 168, 110, 0.1), 0 8px 20px rgba(0,0,0,0.03);
+      border: 1px solid rgba(207, 168, 110, 0.3);
+    }
+
+    /* Oval Çerçeve Detayı (Videodaki Gibi) */
+    .frame-card::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--gold-accent);
+      border-radius: 14px;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .couple-names {
+      font-family: 'Alex Brush', cursive;
+      font-size: 50px;
+      color: var(--text-main);
+      line-height: 1.1;
+      margin: 10px 0;
+    }
+
+    .and-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--gold-accent);
+      margin: -5px 0;
+    }
+
+    .quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: var(--text-sub);
+      font-style: italic;
+      line-height: 1.6;
       margin-top: 15px;
     }
 
-    .timeline-item {
+    .families {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border-color);
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(207, 168, 110, 0.2);
+      font-size: 12px;
+      color: var(--text-main);
     }
 
-    .timeline-item:last-child {
-      border-bottom: none;
+    /* Tarih Rozeti */
+    .date-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-weight: 600;
+      color: var(--gold-accent);
+      line-height: 1;
     }
 
-    .timeline-time {
-      font-weight: 500;
-      color: var(--accent-color);
+    .date-month {
       font-size: 14px;
-    }
-
-    .timeline-event {
-      font-size: 14px;
-      color: var(--text-dark);
-    }
-
-    /* Form & Butonlar */
-    .form-group {
+      letter-spacing: 4px;
+      color: var(--text-main);
+      text-transform: uppercase;
       margin-bottom: 15px;
-      text-align: left;
     }
 
-    .form-group label {
-      display: block;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 5px;
+    /* Geri Sayım */
+    .timer-row {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+    }
+
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .time-block .val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .time-block .lbl {
+      font-size: 10px;
+      color: var(--text-sub);
+      text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    .form-group input, .form-group select {
+    /* RSVP Form */
+    .form-input {
       width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      background: var(--bg-color);
+      padding: 12px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(207, 168, 110, 0.4);
+      border-radius: 8px;
+      background: #fff;
       font-family: inherit;
       font-size: 13px;
-      color: var(--text-dark);
+      color: var(--text-main);
       outline: none;
     }
 
-    .btn {
+    .submit-btn {
       width: 100%;
-      padding: 12px;
-      background: var(--accent-color);
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold-accent), var(--gold-dark));
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 12px;
       letter-spacing: 2px;
       text-transform: uppercase;
       cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background: #b08d4a;
-    }
-
-    .map-btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: transparent;
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 12px;
-      letter-spacing: 1px;
+      box-shadow: 0 4px 12px rgba(207, 168, 110, 0.3);
     }
   </style>
 </head>
 <body>
 
-  <div class="mobile-container">
+  <div class="mobile-wrapper">
     
-    <!-- AÇILIŞ KAPAKLARI -->
-    <div class="door-container" id="doorContainer">
-      <div class="door door-left">
-        <div class="door-pattern"></div>
-      </div>
-      <div class="seal-button" id="openBtn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c5a059" stroke-width="1.5">
+    <!-- AKORDİYON KAPAK -->
+    <div class="door-wrapper" id="doors">
+      <div class="door-leaf door-left"></div>
+      <div class="seal-btn" id="openBtn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#cfa86e" stroke-width="1.5">
           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
         <span>AÇINIZ</span>
       </div>
-      <div class="door door-right">
-        <div class="door-pattern"></div>
-      </div>
+      <div class="door-leaf door-right"></div>
     </div>
 
-    <!-- DAVETİYE İÇERİĞİ -->
-    <div class="card-content">
+    <!-- İÇERİK -->
+    <div class="container">
       
-      <!-- İsimler Card -->
-      <div class="section-card">
-        <div class="names">Melisa</div>
-        <span class="ampersand">ve</span>
-        <div class="names">Kerem</div>
+      <!-- Gelin & Damat -->
+      <div class="frame-card">
+        <div class="couple-names" id="brideName">Melisa</div>
+        <div class="and-text">ve</div>
+        <div class="couple-names" id="groomName">Kerem</div>
         
-        <p class="invitation-text">
-          Bu özel günümüzde, hayatımızı birleştirirken siz değerli dostlarımızı yanımızda görmekten mutluluk duyarız.
+        <p class="quote" id="invitationNote">
+          "Bu anın şahidi olmanız için sizi yanımızda görmek istiyoruz."
         </p>
 
-        <div class="family-names">
-          <div><strong>Yıldız</strong> Ailesi</div>
-          <div><strong>Demir</strong> Ailesi</div>
+        <div class="families">
+          <div><strong id="brideFamily">Yıldız</strong> Ailesi</div>
+          <div><strong id="groomFamily">Demir</strong> Ailesi</div>
         </div>
       </div>
 
-      <!-- Tarih Card -->
-      <div class="section-card">
-        <div class="month-year">AĞUSTOS 2026</div>
-        <div class="date-badge">08</div>
-        <div class="time-info">
-          <span>CUMARTESİ</span>
-          <span>•</span>
-          <span>SAAT 19:00</span>
+      <!-- Tarih -->
+      <div class="frame-card">
+        <div class="date-month" id="eventMonth">AĞUSTOS 2026</div>
+        <div class="date-number" id="eventDay">08</div>
+        <p style="font-size: 12px; color: var(--text-sub); letter-spacing: 2px;" id="eventTime">CUMARTESİ • 19:00</p>
+      </div>
+
+      <!-- Geri Sayım -->
+      <div class="frame-card">
+        <p style="font-size: 11px; letter-spacing: 2px; color: var(--text-sub); text-transform: uppercase;">Buluşmaya Kalan Süre</p>
+        <div class="timer-row">
+          <div class="time-block"><span class="val" id="d">00</span><span class="lbl">Gün</span></div>
+          <div class="time-block"><span class="val" id="h">00</span><span class="lbl">Saat</span></div>
+          <div class="time-block"><span class="val" id="m">00</span><span class="lbl">Dk</span></div>
+          <div class="time-block"><span class="val" id="s">00</span><span class="lbl">Sn</span></div>
         </div>
       </div>
 
-      <!-- Geri Sayım Card -->
-      <div class="section-card">
-        <div class="countdown-title">Buluşmaya Kalan Süre</div>
-        <div class="timer-grid">
-          <div class="time-box">
-            <div class="num" id="days">00</div>
-            <div class="label">Gün</div>
-          </div>
-          <div class="time-box">
-            <div class="num" id="hours">00</div>
-            <div class="label">Saat</div>
-          </div>
-          <div class="time-box">
-            <div class="num" id="minutes">00</div>
-            <div class="label">Dakika</div>
-          </div>
-          <div class="time-box">
-            <div class="num" id="seconds">00</div>
-            <div class="label">Saniye</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Program Akışı -->
-      <div class="section-card">
-        <div class="countdown-title">Günün Çizgisi</div>
-        <div class="timeline">
-          <div class="timeline-item">
-            <span class="timeline-time">19:00</span>
-            <span class="timeline-event">Nikah Merasimi</span>
-          </div>
-          <div class="timeline-item">
-            <span class="timeline-time">20:00</span>
-            <span class="timeline-event">Kokteyl & İkram</span>
-          </div>
-          <div class="timeline-item">
-            <span class="timeline-time">21:30</span>
-            <span class="timeline-event">Kutlama & Eğlence</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Konum Card -->
-      <div class="section-card">
-        <div class="countdown-title">Konum</div>
-        <h4 style="color: var(--text-dark); margin-top: 5px;">Four Seasons Hotel</h4>
-        <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Beşiktaş, İstanbul</p>
-        <a href="https://maps.google.com" target="_blank" class="map-btn">YOL TARİFİ AL</a>
-      </div>
-
-      <!-- RSVP / LCV Katılım Formu -->
-      <div class="section-card">
-        <div class="countdown-title">Katılım Durumu (RSVP)</div>
-        <form id="rsvpForm" onsubmit="event.preventDefault(); alert('Katılım durumunuz iletildi!');">
-          <div class="form-group">
-            <label>ADINIZ SOYADINIZ</label>
-            <input type="text" placeholder="Ad Soyad" required>
-          </div>
-          <div class="form-group">
-            <label>KATILIM DURUMU</label>
-            <select required>
-              <option value="evet">Katılıyorum</option>
-              <option value="hayir">Katılamıyorum</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>KİŞİ SAYISI</label>
-            <input type="number" min="1" max="5" value="1">
-          </div>
-          <button type="submit" class="btn">GÖNDER</button>
+      <!-- LCV Formu -->
+      <div class="frame-card">
+        <p style="font-size: 11px; letter-spacing: 2px; color: var(--text-sub); text-transform: uppercase; margin-bottom: 15px;">Katılım Durumu (RSVP)</p>
+        <form id="rsvpForm">
+          <input type="text" id="guestName" class="form-input" placeholder="Adınız Soyadınız" required>
+          <select id="guestStatus" class="form-input" required>
+            <option value="Katılıyor">Katılıyorum</option>
+            <option value="Katılamıyor">Maalesef Katılamıyorum</option>
+          </select>
+          <input type="number" id="guestCount" class="form-input" value="1" min="1" max="5" placeholder="Kişi Sayısı">
+          <button type="submit" class="submit-btn">Gönder</button>
         </form>
       </div>
 
@@ -481,36 +325,58 @@
   </div>
 
   <script>
-    // Kapak Açılışı
-    const doorContainer = document.getElementById('doorContainer');
-    const openBtn = document.getElementById('openBtn');
-
-    openBtn.addEventListener('click', () => {
-      doorContainer.classList.add('open');
+    // Kapak Açımı
+    document.getElementById('openBtn').addEventListener('click', () => {
+      document.getElementById('doors').classList.add('opened');
     });
 
-    // Geri Sayım Mantığı (Hedef: 8 Ağustos 2026)
-    const targetDate = new Date('August 8, 2026 19:00:00').getTime();
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-        document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-        document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-        document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-      }
+    // Admin Tarafından Dinamik Veri Yükleme (LocalStorage)
+    function loadData() {
+      const data = JSON.parse(localStorage.getItem('weddingConfig')) || {};
+      if(data.bride) document.getElementById('brideName').innerText = data.bride;
+      if(data.groom) document.getElementById('groomName').innerText = data.groom;
+      if(data.bFamily) document.getElementById('brideFamily').innerText = data.bFamily;
+      if(data.gFamily) document.getElementById('groomFamily').innerText = data.gFamily;
+      if(data.note) document.getElementById('invitationNote').innerText = `"${data.note}"`;
+      if(data.day) document.getElementById('eventDay').innerText = data.day;
+      if(data.month) document.getElementById('eventMonth').innerText = data.month;
+      if(data.time) document.getElementById('eventTime').innerText = data.time;
     }
+    loadData();
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    // Geri Sayım
+    function startTimer() {
+      const target = new Date('August 8, 2026 19:00:00').getTime();
+      setInterval(() => {
+        const now = new Date().getTime();
+        const diff = target - now;
+        if(diff > 0) {
+          document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+          document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }
+      }, 1000);
+    }
+    startTimer();
+
+    // LCV Kayıt Formu
+    document.getElementById('rsvpForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newResponse = {
+        name: document.getElementById('guestName').value,
+        status: document.getElementById('guestStatus').value,
+        count: document.getElementById('guestCount').value,
+        date: new Date().toLocaleString()
+      };
+      
+      const responses = JSON.parse(localStorage.getItem('rsvpList')) || [];
+      responses.push(newResponse);
+      localStorage.setItem('rsvpList', JSON.stringify(responses));
+      
+      alert('Talebiniz alınmıştır, teşekkür ederiz!');
+      e.target.reset();
+    });
   </script>
 </body>
 </html>
